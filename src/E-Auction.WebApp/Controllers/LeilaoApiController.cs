@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using EAuction.WebApp.Dados;
 using EAuction.WebApp.Models;
-using EAuction.WebApp.Dados;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EAuction.WebApp.Controllers
 {
@@ -11,54 +8,24 @@ namespace EAuction.WebApp.Controllers
     [Route("/api/leiloes")]
     public class LeilaoApiController : ControllerBase
     {
-        AppDbContext _context;
+        LeilaoDao _dao;
 
         public LeilaoApiController()
         {
-            _context = new AppDbContext();
-        }
-
-        private IEnumerable<Leilao> GetLeiloes()
-        {
-            return _context.Leiloes
-                .Include(l => l.Categoria)
-                .ToList();
-        }
-
-        private Leilao GetLeilaoById(int id)
-        {
-            return _context.Leiloes.First(l => l.Id == id);
-        }
-
-        private void AddLeilao(Leilao leilao)
-        {
-            _context.Leiloes.Add(leilao);
-            _context.SaveChanges();
-        }
-
-        private void UpdateLeilao(Leilao leilao)
-        {
-            _context.Leiloes.Update(leilao);
-            _context.SaveChanges();
-        }
-
-        private void RemoveLeilao(Leilao leilao)
-        {
-            _context.Leiloes.Remove(leilao);
-            _context.SaveChanges();
+            _dao = new LeilaoDao();
         }
 
         [HttpGet]
         public IActionResult EndpointGetLeiloes()
         {
-            var leiloes = GetLeiloes();
+            var leiloes = _dao.GetLeiloes();
             return Ok(leiloes);
         }
 
         [HttpGet("{id}")]
         public IActionResult EndpointGetLeilaoById(int id)
         {
-            var leilao = GetLeilaoById(id);
+            var leilao = _dao.GetLeilaoById(id);
             if (leilao == null)
             {
                 return NotFound();
@@ -69,29 +36,27 @@ namespace EAuction.WebApp.Controllers
         [HttpPost]
         public IActionResult EndpointPostLeilao(Leilao leilao)
         {
-            AddLeilao(leilao);
+            _dao.AddLeilao(leilao);
             return Ok(leilao);
         }
 
         [HttpPut]
         public IActionResult EndpointPutLeilao(Leilao leilao)
         {
-            UpdateLeilao(leilao);
+            _dao.UpdateLeilao(leilao);
             return Ok(leilao);
         }
 
         [HttpDelete("{id}")]
         public IActionResult EndpointDeleteLeilao(int id)
         {
-            var leilao = GetLeilaoById(id);
+            var leilao = _dao.GetLeilaoById(id);
             if (leilao == null)
             {
                 return NotFound();
             }
-            RemoveLeilao(leilao);
+            _dao.RemoveLeilao(leilao);
             return NoContent();
         }
-
-
     }
 }

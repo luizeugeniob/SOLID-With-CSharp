@@ -1,68 +1,33 @@
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using EAuction.WebApp.Dados;
 using EAuction.WebApp.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace EAuction.WebApp.Controllers
 {
     public class LeilaoController : Controller
     {
-
         AppDbContext _context;
+        LeilaoDao _dao;
 
         public LeilaoController()
         {
             _context = new AppDbContext();
-        }
-
-        private IEnumerable<Categoria> GetCategorias()
-        {
-            return _context.Categorias.ToList();
-        }
-
-        private IEnumerable<Leilao> GetLeiloes()
-        {
-            return _context.Leiloes
-                .Include(l => l.Categoria)
-                .ToList();
-        }
-
-        private Leilao GetLeilaoById(int id)
-        {
-            return _context.Leiloes.First(l => l.Id == id);
-        }
-
-        private void AddLeilao(Leilao leilao)
-        {
-            _context.Leiloes.Add(leilao);
-            _context.SaveChanges();
-        }
-
-        private void UpdateLeilao(Leilao leilao)
-        {
-            _context.Leiloes.Update(leilao);
-            _context.SaveChanges();
-        }
-
-        private void RemoveLeilao(Leilao leilao)
-        {
-            _context.Leiloes.Remove(leilao);
-            _context.SaveChanges();
+            _dao = new LeilaoDao();
         }
 
         public IActionResult Index()
         {
-            var leiloes = GetLeiloes();
+            var leiloes = _dao.GetLeiloes();
             return View(leiloes);
         } 
 
         [HttpGet]
         public IActionResult Insert()
         {
-            ViewData["Categorias"] = GetCategorias();
+            ViewData["Categorias"] = _dao.GetCategorias();
             ViewData["Operacao"] = "Inclusão";
             return View("Form");
         }
@@ -72,10 +37,10 @@ namespace EAuction.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                AddLeilao(model);
+                _dao.AddLeilao(model);
                 return RedirectToAction("Index");
             }
-            ViewData["Categorias"] = GetCategorias();
+            ViewData["Categorias"] = _dao.GetCategorias();
             ViewData["Operacao"] = "Inclusão";
             return View("Form", model);
         }
@@ -83,9 +48,9 @@ namespace EAuction.WebApp.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewData["Categorias"] = GetCategorias();
+            ViewData["Categorias"] = _dao.GetCategorias();
             ViewData["Operacao"] = "Edição";
-            var leilao = GetLeilaoById(id);
+            var leilao = _dao.GetLeilaoById(id);
             if (leilao == null) return NotFound();
             return View("Form", leilao);
         }
@@ -95,10 +60,10 @@ namespace EAuction.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                UpdateLeilao(model);
+                _dao.UpdateLeilao(model);
                 return RedirectToAction("Index");
             }
-            ViewData["Categorias"] = GetCategorias();
+            ViewData["Categorias"] = _dao.GetCategorias();
             ViewData["Operacao"] = "Edição";
             return View("Form", model);
         }
@@ -106,34 +71,34 @@ namespace EAuction.WebApp.Controllers
         [HttpPost]
         public IActionResult Inicia(int id)
         {
-            var leilao = GetLeilaoById(id);
+            var leilao = _dao.GetLeilaoById(id);
             if (leilao == null) return NotFound();
             if (leilao.Situacao != SituacaoLeilao.Rascunho) return StatusCode(405);
             leilao.Situacao = SituacaoLeilao.Pregao;
             leilao.Inicio = DateTime.Now;
-            UpdateLeilao(leilao);
+            _dao.UpdateLeilao(leilao);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Finaliza(int id)
         {
-            var leilao = GetLeilaoById(id);
+            var leilao = _dao.GetLeilaoById(id);
             if (leilao == null) return NotFound();
             if (leilao.Situacao != SituacaoLeilao.Pregao) return StatusCode(405);
             leilao.Situacao = SituacaoLeilao.Finalizado;
             leilao.Termino = DateTime.Now;
-            UpdateLeilao(leilao);
+            _dao.UpdateLeilao(leilao);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Remove(int id)
         {
-            var leilao = GetLeilaoById(id);
+            var leilao = _dao.GetLeilaoById(id);
             if (leilao == null) return NotFound();
             if (leilao.Situacao == SituacaoLeilao.Pregao) return StatusCode(405);
-            RemoveLeilao(leilao);
+            _dao.RemoveLeilao(leilao);
             return NoContent();
         }
 

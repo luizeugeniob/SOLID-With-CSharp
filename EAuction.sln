@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{87651AED-256
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{64367499-FAF1-4B60-9B15-CC877A9BCF6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Auction.CLI", "src\E-Auction.CLI\E-Auction.CLI.csproj", "{293B37DC-2F81-4E2B-8146-DF53A3CCB1E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EAuction.CLI", "src\E-Auction.CLI\EAuction.CLI.csproj", "{293B37DC-2F81-4E2B-8146-DF53A3CCB1E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Auction.WebApp", "src\E-Auction.WebApp\E-Auction.WebApp.csproj", "{4118DD0F-0A88-412B-82E2-778211BBF7C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EAuction.WebApp", "src\E-Auction.WebApp\EAuction.WebApp.csproj", "{4118DD0F-0A88-412B-82E2-778211BBF7C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Auction.Tests", "tests\E-Auction.Tests\E-Auction.Tests.csproj", "{719DD342-6BC6-4DD2-B14C-37B257036D18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EAuction.Tests", "tests\E-Auction.Tests\EAuction.Tests.csproj", "{719DD342-6BC6-4DD2-B14C-37B257036D18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

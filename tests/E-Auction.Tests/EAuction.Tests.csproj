@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\E-Auction.WebApp\E-Auction.WebApp.csproj" />
+    <ProjectReference Include="..\..\src\E-Auction.WebApp\EAuction.WebApp.csproj" />
   </ItemGroup>
 
 </Project>

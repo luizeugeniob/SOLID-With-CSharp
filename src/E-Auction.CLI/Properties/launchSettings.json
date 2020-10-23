@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EAuction.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "listar"
+    }
+  }
+}

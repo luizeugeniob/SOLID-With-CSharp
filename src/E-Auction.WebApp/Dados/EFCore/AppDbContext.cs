@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using EAuction.WebApp.Models;
 
-namespace EAuction.WebApp.Dados
+namespace EAuction.WebApp.Dados.EFCore
 {
     public class AppDbContext : DbContext
     {

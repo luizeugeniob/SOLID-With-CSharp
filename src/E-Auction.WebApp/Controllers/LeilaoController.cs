@@ -9,13 +9,11 @@ namespace EAuction.WebApp.Controllers
 {
     public class LeilaoController : Controller
     {
-        AppDbContext _context;
-        LeilaoDao _dao;
+        ILeilaoDao _dao;
 
-        public LeilaoController()
+        public LeilaoController(ILeilaoDao dao)
         {
-            _context = new AppDbContext();
-            _dao = new LeilaoDao();
+            _dao = dao;
         }
 
         public IActionResult Index()
@@ -106,8 +104,7 @@ namespace EAuction.WebApp.Controllers
         public IActionResult Pesquisa(string termo)
         {
             ViewData["termo"] = termo;
-            var leiloes = _context.Leiloes
-                .Include(l => l.Categoria)
+            var leiloes = _dao.GetLeiloes()
                 .Where(l => string.IsNullOrWhiteSpace(termo) || 
                     l.Titulo.ToUpper().Contains(termo.ToUpper()) || 
                     l.Descricao.ToUpper().Contains(termo.ToUpper()) ||

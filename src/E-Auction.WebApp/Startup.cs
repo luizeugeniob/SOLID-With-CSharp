@@ -1,3 +1,5 @@
+using EAuction.WebApp.Dados;
+using EAuction.WebApp.Dados.EFCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,6 +9,8 @@ namespace EAuction.WebApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ILeilaoDao, LeilaoDao>();
+
             services
                 .AddControllersWithViews()
                 .AddNewtonsoftJson(options => 

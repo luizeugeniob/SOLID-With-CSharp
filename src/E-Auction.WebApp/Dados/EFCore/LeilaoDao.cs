@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EAuction.WebApp.Dados
+namespace EAuction.WebApp.Dados.EFCore
 {
-    public class LeilaoDao
+    public class LeilaoDao : ILeilaoDao
     {
         AppDbContext _context;
 
@@ -14,10 +14,8 @@ namespace EAuction.WebApp.Dados
             _context = new AppDbContext();
         }
 
-        public IEnumerable<Categoria> GetCategorias()
-        {
-            return _context.Categorias.ToList();
-        }
+        public IEnumerable<Categoria> GetCategorias() 
+            => _context.Categorias.ToList();
 
         public IEnumerable<Leilao> GetLeiloes()
         {
@@ -26,10 +24,8 @@ namespace EAuction.WebApp.Dados
                 .ToList();
         }
 
-        public Leilao GetLeilaoById(int id)
-        {
-            return _context.Leiloes.First(l => l.Id == id);
-        }
+        public Leilao GetLeilaoById(int id) 
+            => _context.Leiloes.First(l => l.Id == id);
 
         public void AddLeilao(Leilao leilao)
         {

@@ -14,8 +14,8 @@ namespace EAuction.WebApp
             services.AddTransient<IAuctionDao, AuctionDao>();
             services.AddTransient<ICategoryDao, CategoryDao>();
 
+            services.AddTransient<IAdminService, ArchivedAdminService>();
             services.AddTransient<IProductService, DefaultProductService>();
-            services.AddTransient<IAdminService, DefaultAdminService>();
 
             services.AddDbContext<AppDbContext>();
 

@@ -4,6 +4,7 @@
     {
         Draft,
         Trading,
-        Close
+        Close,
+        Archived
     }
 }

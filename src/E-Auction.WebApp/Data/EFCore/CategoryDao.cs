@@ -14,14 +14,14 @@ namespace EAuction.WebApp.Data.EFCore
             _context = context;
         }
 
-        public Category GetCategoryById(int id)
+        public Category Get(int id)
         {
             return _context.Categories
                 .Include(c => c.Auctions)
                 .First(c => c.Id == id);
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<Category> Get()
             => _context.Categories.Include(a => a.Auctions);
     }
 }

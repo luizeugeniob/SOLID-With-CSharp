@@ -19,13 +19,13 @@ namespace EAuction.WebApp.Services.Handlers
 
         public Category GetCategoryWithAuctionsInTradingById(int id)
         {
-            return _categoryDao.GetCategoryById(id);
+            return _categoryDao.Get(id);
         }
 
         public IEnumerable<CategoryWithAuctionInfo> GetCategoriesWithTotalAuctionsInTrading()
         {
             return _categoryDao
-                .GetCategories()
+                .Get()
                 .Select(c => new CategoryWithAuctionInfo
                 {
                     Id = c.Id,
@@ -41,7 +41,7 @@ namespace EAuction.WebApp.Services.Handlers
         {
             var normalizedTerm = term.ToUpper();
             return _auctionDao
-                .GetAuctions()
+                .Get()
                 .Where(c =>
                     c.Title.ToUpper().Contains(normalizedTerm) ||
                     c.Description.ToUpper().Contains(normalizedTerm) ||

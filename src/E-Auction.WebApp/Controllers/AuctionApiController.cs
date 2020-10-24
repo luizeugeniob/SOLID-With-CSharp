@@ -6,11 +6,11 @@ namespace EAuction.WebApp.Controllers
 {
     [ApiController]
     [Route("/api/leiloes")]
-    public class LeilaoApiController : ControllerBase
+    public class AuctionApiController : ControllerBase
     {
         private readonly IAdminService _adminService;
 
-        public LeilaoApiController(IAdminService adminService)
+        public AuctionApiController(IAdminService adminService)
         {
             _adminService = adminService;
         }
@@ -22,7 +22,7 @@ namespace EAuction.WebApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult EndpointGetLeilaoById(int id)
+        public IActionResult EndpointGetAuctionById(int id)
         {
             var auction = _adminService.GetAuctionById(id);
             if (auction == null)
@@ -33,21 +33,21 @@ namespace EAuction.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult EndpointPostLeilao(Auction auction)
+        public IActionResult EndpointPostAucion(Auction auction)
         {
             _adminService.InsertAuction(auction);
             return Ok(auction);
         }
 
         [HttpPut]
-        public IActionResult EndpointPutLeilao(Auction auction)
+        public IActionResult EndpointPutAuction(Auction auction)
         {
             _adminService.UpdateAuction(auction);
             return Ok(auction);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult EndpointDeleteLeilao(int id)
+        public IActionResult EndpointDeleteAuction(int id)
         {
             var auction = _adminService.GetAuctionById(id);
             if (auction == null)

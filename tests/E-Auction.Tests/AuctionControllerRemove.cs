@@ -4,7 +4,7 @@ using Xunit;
 
 namespace EAuction.Tests
 {
-    public class LeilaoControllerRemove
+    public class AuctionControllerRemove
     {
         [Fact]
         public void DadoLeilaoInexistenteEntaoRetorna404()

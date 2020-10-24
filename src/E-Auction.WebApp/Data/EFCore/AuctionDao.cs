@@ -14,29 +14,25 @@ namespace EAuction.WebApp.Data.EFCore
             _context = new AppDbContext();
         }
 
-        public IEnumerable<Auction> GetAuctions()
-        {
-            return _context.Auctions
-                .Include(l => l.Category)
-                .ToList();
-        }
+        public IEnumerable<Auction> Get()
+            => _context.Auctions.Include(a => a.Category).ToList();
 
-        public Auction GetAuctionById(int id) 
-            => _context.Auctions.First(l => l.Id == id);
+        public Auction Get(int id) 
+            => _context.Auctions.First(a => a.Id == id);
 
-        public void InsertAuction(Auction leilao)
+        public void Insert(Auction leilao)
         {
             _context.Auctions.Add(leilao);
             _context.SaveChanges();
         }
 
-        public void UpdateAuction(Auction leilao)
+        public void Update(Auction leilao)
         {
             _context.Auctions.Update(leilao);
             _context.SaveChanges();
         }
 
-        public void DeleteAuction(Auction leilao)
+        public void Delete(Auction leilao)
         {
             _context.Auctions.Remove(leilao);
             _context.SaveChanges();

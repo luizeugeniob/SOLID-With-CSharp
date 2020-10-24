@@ -8,13 +8,13 @@
 <div class="card">
     <div class="card-header d-flex">
         <h4 class="flex-grow-1">Leilões</h4>
-        <a class="btn btn-outline-primary" asp-controller="Leilao" asp-action="Insert" title="Inclusão">
+        <a class="btn btn-outline-primary" asp-controller="Auction" asp-action="Insert" title="Inclusão">
             <i class="fa fa-plus" aria-hidden="true"></i>
             Novo
         </a>
     </div>
     <div class="card-body">
-        <form class="form-inline mb-3" asp-controller="Leilao" asp-action="Pesquisa" method="get">
+        <form class="form-inline mb-3" asp-controller="Auction" asp-action="Pesquisa" method="get">
             <input name="termo" class="form-control flex-grow-1"
                     value="@termo"
                     placeholder="Pesquisar por título, categoria ou descrição..." />
@@ -62,7 +62,7 @@
                                 <td>
                                     @if (auction.Status == AuctionStatus.Draft)
                                     {
-                                        <a class="btn btn-light" asp-controller="Leilao" asp-action="Edit" asp-route-id="@auction.Id" title="Edição">
+                                        <a class="btn btn-light" asp-controller="Auction" asp-action="Edit" asp-route-id="@auction.Id" title="Edição">
                                             <i class="fa fa-pencil-alt" aria-hidden="true"></i>
                                         </a>
                                         <form asp-action="Inicia">
@@ -74,7 +74,7 @@
                                     }
                                     @if (auction.Status != AuctionStatus.Trading)
                                     {
-                                        <a class="btn btn-light btnRemoveLeilao" data-id="@auction.Id" data-titulo="@auction.Title" title="Exclusão">
+                                        <a class="btn btn-light btnRemoveAuction" data-id="@auction.Id" data-titulo="@auction.Title" title="Exclusão">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
                                     }

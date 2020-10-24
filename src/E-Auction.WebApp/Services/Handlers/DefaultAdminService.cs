@@ -18,58 +18,58 @@ namespace EAuction.WebApp.Services.Handlers
 
         public IEnumerable<Auction> GetAuctions()
         {
-            return _auctionDao.GetAuctions();
+            return _auctionDao.Get();
         }
 
         public Auction GetAuctionById(int id)
         {
-            return _auctionDao.GetAuctionById(id);
+            return _auctionDao.Get(id);
         }
 
         public void InsertAuction(Auction auction)
         {
-            _auctionDao.InsertAuction(auction);
+            _auctionDao.Insert(auction);
         }
 
         public void UpdateAuction(Auction auction)
         {
-            _auctionDao.UpdateAuction(auction);
+            _auctionDao.Update(auction);
         }
 
         public void DeleteAuction(Auction auction)
         {
             if (auction != null && auction.Status != AuctionStatus.Trading)
             {
-                _auctionDao.DeleteAuction(auction);
+                _auctionDao.Delete(auction);
             }
         }
 
         public IEnumerable<Category> GetCategories()
         {
-            return _categoryDao.GetCategories();
+            return _categoryDao.Get();
         }
 
         public void OpenAuctionById(int id)
         {
-            var auction = _auctionDao.GetAuctionById(id);
+            var auction = _auctionDao.Get(id);
 
             if (auction != null && auction.Status == AuctionStatus.Trading)
             {
                 auction.Status = AuctionStatus.Trading;
                 auction.DateOpen = DateTime.Now;
-                _auctionDao.UpdateAuction(auction);
+                _auctionDao.Update(auction);
             }
         }
 
         public void CloseAuctionFloorById(int id)
         {
-            var auction = _auctionDao.GetAuctionById(id);
+            var auction = _auctionDao.Get(id);
 
             if (auction != null && auction.Status == AuctionStatus.Trading)
             {
                 auction.Status = AuctionStatus.Close;
                 auction.DateClose = DateTime.Now;
-                _auctionDao.UpdateAuction(auction);
+                _auctionDao.Update(auction);
             }
         }
     }

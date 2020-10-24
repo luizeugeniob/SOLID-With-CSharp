@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace EAuction.WebApp.Controllers
 {
-    public class LeilaoController : Controller
+    public class AuctionController : Controller
     {
         private readonly IAdminService _adminService;
 
-        public LeilaoController(IAdminService adminService)
+        public AuctionController(IAdminService adminService)
         {
             _adminService = adminService;
         }

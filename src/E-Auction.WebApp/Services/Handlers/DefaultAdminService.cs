@@ -26,19 +26,22 @@ namespace EAuction.WebApp.Services.Handlers
             return _auctionDao.GetAuctionById(id);
         }
 
-        public void InsertAuction(Auction leilao)
+        public void InsertAuction(Auction auction)
         {
-            _auctionDao.InsertAuction(leilao);
+            _auctionDao.InsertAuction(auction);
         }
 
-        public void UpdateAuction(Auction leilao)
+        public void UpdateAuction(Auction auction)
         {
-            _auctionDao.UpdateAuction(leilao);
+            _auctionDao.UpdateAuction(auction);
         }
 
-        public void DeleteAuction(Auction leilao)
+        public void DeleteAuction(Auction auction)
         {
-            _auctionDao.DeleteAuction(leilao);
+            if (auction != null && auction.Status != AuctionStatus.Trading)
+            {
+                _auctionDao.DeleteAuction(auction);
+            }
         }
 
         public IEnumerable<Category> GetCategories()

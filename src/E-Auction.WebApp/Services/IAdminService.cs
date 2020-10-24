@@ -8,9 +8,9 @@ namespace EAuction.WebApp.Services
         IEnumerable<Category> GetCategories();
         IEnumerable<Auction> GetAuctions();
         Auction GetAuctionById(int id);
-        void InsertAuction(Auction leilao);
-        void UpdateAuction(Auction leilao);
-        void DeleteAuction(Auction leilao);
+        void InsertAuction(Auction auction);
+        void UpdateAuction(Auction auction);
+        void DeleteAuction(Auction auction);
         void OpenAuctionById(int id);
         void CloseAuctionFloorById(int id);
     }

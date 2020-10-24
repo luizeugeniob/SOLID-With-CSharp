@@ -1,7 +1,7 @@
+using EAuction.WebApp.Dados.EFCore;
+using EAuction.WebApp.Models;
 using System;
 using System.Collections.Generic;
-using EAuction.WebApp.Models;
-using EAuction.WebApp.Dados;
 
 namespace EAuction.WebApp.Seeding
 {
@@ -9,18 +9,18 @@ namespace EAuction.WebApp.Seeding
     {
         public static void Seed()
         {
-            using (var ctx = new AppDbContext())
+            using (var context = new AppDbContext())
             {
-                if (ctx.Database.EnsureCreated())
+                if (context.Database.EnsureCreated())
                 {
-                    var generator = new LeilaoRandomGenerator(new Random());
-                    var leiloes = new List<Leilao>();
+                    var generator = new AuctionRandomGenerator(new Random());
+                    var auctions = new List<Auction>();
                     for (var i = 1; i <= 200; i++)
                     {
-                        leiloes.Add(generator.NovoLeilao);
+                        auctions.Add(generator.NewAuction);
                     }
-                    ctx.Leiloes.AddRange(leiloes);
-                    ctx.SaveChanges();
+                    context.Auctions.AddRange(auctions);
+                    context.SaveChanges();
                 }
             }
         }

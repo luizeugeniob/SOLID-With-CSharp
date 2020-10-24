@@ -1,7 +1,6 @@
-using EAuction.WebApp.Dados;
 using EAuction.WebApp.Models;
+using EAuction.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -9,36 +8,36 @@ namespace EAuction.WebApp.Controllers
 {
     public class LeilaoController : Controller
     {
-        ILeilaoDao _dao;
+        private readonly IAdminService _adminService;
 
-        public LeilaoController(ILeilaoDao dao)
+        public LeilaoController(IAdminService adminService)
         {
-            _dao = dao;
+            _adminService = adminService;
         }
 
         public IActionResult Index()
         {
-            var leiloes = _dao.GetLeiloes();
-            return View(leiloes);
-        } 
+            var auctions = _adminService.GetAuctions();
+            return View(auctions);
+        }
 
         [HttpGet]
         public IActionResult Insert()
         {
-            ViewData["Categorias"] = _dao.GetCategorias();
+            ViewData["Categorias"] = _adminService.GetCategories();
             ViewData["Operacao"] = "Inclusão";
             return View("Form");
         }
 
         [HttpPost]
-        public IActionResult Insert(Leilao model)
+        public IActionResult Insert(Auction model)
         {
             if (ModelState.IsValid)
             {
-                _dao.AddLeilao(model);
+                _adminService.InsertAuction(model);
                 return RedirectToAction("Index");
             }
-            ViewData["Categorias"] = _dao.GetCategorias();
+            ViewData["Categorias"] = _adminService.GetCategories();
             ViewData["Operacao"] = "Inclusão";
             return View("Form", model);
         }
@@ -46,22 +45,22 @@ namespace EAuction.WebApp.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewData["Categorias"] = _dao.GetCategorias();
+            ViewData["Categorias"] = _adminService.GetCategories();
             ViewData["Operacao"] = "Edição";
-            var leilao = _dao.GetLeilaoById(id);
-            if (leilao == null) return NotFound();
-            return View("Form", leilao);
+            var auction = _adminService.GetAuctionById(id);
+            if (auction == null) return NotFound();
+            return View("Form", auction);
         }
 
         [HttpPost]
-        public IActionResult Edit(Leilao model)
+        public IActionResult Edit(Auction model)
         {
             if (ModelState.IsValid)
             {
-                _dao.UpdateLeilao(model);
+                _adminService.UpdateAuction(model);
                 return RedirectToAction("Index");
             }
-            ViewData["Categorias"] = _dao.GetCategorias();
+            ViewData["Categorias"] = _adminService.GetCategories();
             ViewData["Operacao"] = "Edição";
             return View("Form", model);
         }
@@ -69,48 +68,48 @@ namespace EAuction.WebApp.Controllers
         [HttpPost]
         public IActionResult Inicia(int id)
         {
-            var leilao = _dao.GetLeilaoById(id);
-            if (leilao == null) return NotFound();
-            if (leilao.Situacao != SituacaoLeilao.Rascunho) return StatusCode(405);
-            leilao.Situacao = SituacaoLeilao.Pregao;
-            leilao.Inicio = DateTime.Now;
-            _dao.UpdateLeilao(leilao);
+            var auction = _adminService.GetAuctionById(id);
+            if (auction == null) return NotFound();
+            if (auction.Status != AuctionStatus.Draft) return StatusCode(405);
+            auction.Status = AuctionStatus.Trading;
+            auction.DateOpen = DateTime.Now;
+            _adminService.UpdateAuction(auction);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Finaliza(int id)
         {
-            var leilao = _dao.GetLeilaoById(id);
-            if (leilao == null) return NotFound();
-            if (leilao.Situacao != SituacaoLeilao.Pregao) return StatusCode(405);
-            leilao.Situacao = SituacaoLeilao.Finalizado;
-            leilao.Termino = DateTime.Now;
-            _dao.UpdateLeilao(leilao);
+            var auction = _adminService.GetAuctionById(id);
+            if (auction == null) return NotFound();
+            if (auction.Status != AuctionStatus.Trading) return StatusCode(405);
+            auction.Status = AuctionStatus.Close;
+            auction.DateClose = DateTime.Now;
+            _adminService.UpdateAuction(auction);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Remove(int id)
         {
-            var leilao = _dao.GetLeilaoById(id);
-            if (leilao == null) return NotFound();
-            if (leilao.Situacao == SituacaoLeilao.Pregao) return StatusCode(405);
-            _dao.RemoveLeilao(leilao);
+            var auction = _adminService.GetAuctionById(id);
+            if (auction == null) return NotFound();
+            if (auction.Status == AuctionStatus.Trading) return StatusCode(405);
+            _adminService.DeleteAuction(auction);
             return NoContent();
         }
 
         [HttpGet]
-        public IActionResult Pesquisa(string termo)
+        public IActionResult Pesquisa(string term)
         {
-            ViewData["termo"] = termo;
-            var leiloes = _dao.GetLeiloes()
-                .Where(l => string.IsNullOrWhiteSpace(termo) || 
-                    l.Titulo.ToUpper().Contains(termo.ToUpper()) || 
-                    l.Descricao.ToUpper().Contains(termo.ToUpper()) ||
-                    l.Categoria.Descricao.ToUpper().Contains(termo.ToUpper())
+            ViewData["termo"] = term;
+            var auctions = _adminService.GetAuctions()
+                .Where(l => string.IsNullOrWhiteSpace(term) ||
+                    l.Title.ToUpper().Contains(term.ToUpper()) ||
+                    l.Description.ToUpper().Contains(term.ToUpper()) ||
+                    l.Category.Name.ToUpper().Contains(term.ToUpper())
                 );
-            return View("Index", leiloes);
+            return View("Index", auctions);
         }
     }
 }

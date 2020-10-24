@@ -1,5 +1,6 @@
 ﻿using EAuction.WebApp.Dados;
 using EAuction.WebApp.Models;
+using EAuction.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EAuction.WebApp.Controllers
@@ -8,54 +9,53 @@ namespace EAuction.WebApp.Controllers
     [Route("/api/leiloes")]
     public class LeilaoApiController : ControllerBase
     {
-        ILeilaoDao _dao;
+        private readonly IAdminService _adminService;
 
-        public LeilaoApiController(ILeilaoDao dao)
+        public LeilaoApiController(IAdminService adminService)
         {
-            _dao = dao;
+            _adminService = adminService;
         }
 
         [HttpGet]
         public IActionResult EndpointGetLeiloes()
         {
-            var leiloes = _dao.GetLeiloes();
-            return Ok(leiloes);
+            return base.Ok(_adminService.GetAuctions());
         }
 
         [HttpGet("{id}")]
         public IActionResult EndpointGetLeilaoById(int id)
         {
-            var leilao = _dao.GetLeilaoById(id);
-            if (leilao == null)
+            var auction = _adminService.GetAuctionById(id);
+            if (auction == null)
             {
                 return NotFound();
             }
-            return Ok(leilao);
+            return Ok(auction);
         }
 
         [HttpPost]
-        public IActionResult EndpointPostLeilao(Leilao leilao)
+        public IActionResult EndpointPostLeilao(Auction auction)
         {
-            _dao.AddLeilao(leilao);
-            return Ok(leilao);
+            _adminService.InsertAuction(auction);
+            return Ok(auction);
         }
 
         [HttpPut]
-        public IActionResult EndpointPutLeilao(Leilao leilao)
+        public IActionResult EndpointPutLeilao(Auction auction)
         {
-            _dao.UpdateLeilao(leilao);
-            return Ok(leilao);
+            _adminService.UpdateAuction(auction);
+            return Ok(auction);
         }
 
         [HttpDelete("{id}")]
         public IActionResult EndpointDeleteLeilao(int id)
         {
-            var leilao = _dao.GetLeilaoById(id);
-            if (leilao == null)
+            var auction = _adminService.GetAuctionById(id);
+            if (auction == null)
             {
                 return NotFound();
             }
-            _dao.RemoveLeilao(leilao);
+            _adminService.DeleteAuction(auction);
             return NoContent();
         }
     }

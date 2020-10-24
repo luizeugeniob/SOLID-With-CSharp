@@ -1,6 +1,6 @@
+using EAuction.WebApp.Seeding;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using EAuction.WebApp.Seeding;
 
 namespace EAuction.WebApp
 {

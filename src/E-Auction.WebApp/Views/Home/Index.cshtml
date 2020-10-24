@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CategoriaComInfoLeilao>
+﻿@model IEnumerable<CategoryWithAuctionInfo>
 
 @{
     Layout = "_AreaPublica";
@@ -15,12 +15,12 @@
         var estilo = $"style{categ.Id}";
         <article class="@estilo">
             <span class="image">
-                <img src="@categ.Imagem" alt="@categ.Descricao" />
+                <img src="@categ.UrlImage" alt="@categ.Name" />
             </span>
             <a asp-action="Categoria" asp-controller="Home" asp-route-id="@categ.Id" >
-                <h2>@categ.Descricao</h2>
+                <h2>@categ.Name</h2>
                 <div class="content">
-                    <p>@categ.EmPregao leilões em andamento.</p>
+                    <p>@categ.InTrading leilões em andamento.</p>
                 </div>
             </a>
         </article>

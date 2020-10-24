@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Leilao>
+﻿@model IEnumerable<Auction>
 
 @{
     Layout = "_AreaPublica";
@@ -8,15 +8,15 @@
 <h1>Você pesquisou por "@ViewData["termo"]"</h1>
 <h3>Leilões encontrados</h3>
 <section class="tiles">
-    @foreach (var leilao in Model)
+    @foreach (var auction in Model)
     {
         <article class="leilao">
             <span class="image">
-                <img src="@leilao.PosterUrl" alt="@leilao.Titulo" />
+                <img src="@auction.UrlPoster" alt="@auction.Title" />
             </span>
-            <h4>@leilao.Titulo</h4>
+            <h4>@auction.Title</h4>
             <div class="content">
-                <p>@leilao.Descricao.Substring(0, 100)</p>
+                <p>@auction.Description.Substring(0, 100)</p>
             </div>
         </article>
     }

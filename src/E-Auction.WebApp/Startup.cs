@@ -1,5 +1,7 @@
 using EAuction.WebApp.Dados;
 using EAuction.WebApp.Dados.EFCore;
+using EAuction.WebApp.Services;
+using EAuction.WebApp.Services.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +11,13 @@ namespace EAuction.WebApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ILeilaoDao, LeilaoDao>();
+            services.AddTransient<IAuctionDao, AuctionDao>();
+            services.AddTransient<ICategoryDao, CategoryDao>();
+
+            services.AddTransient<IProductService, DefaultProductService>();
+            services.AddTransient<IAdminService, DefaultAdminService>();
+
+            services.AddDbContext<AppDbContext>();
 
             services
                 .AddControllersWithViews()

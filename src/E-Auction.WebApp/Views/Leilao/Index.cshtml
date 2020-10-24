@@ -1,4 +1,4 @@
-@model IEnumerable<Leilao>
+@model IEnumerable<Auction>
 
 @{
     ViewData["Title"] = "Leilões";
@@ -36,52 +36,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var leilao in Model)
+                        @foreach(var auction in Model)
                         {
-                            <tr class="row-leilao-@leilao.Id">
-                                <td>@leilao.Id</td>
-                                <td>@leilao.Titulo</td>
+                            <tr class="row-leilao-@auction.Id">
+                                <td>@auction.Id</td>
+                                <td>@auction.Title</td>
                                 <td>
-                                    @switch (leilao.Situacao)
+                                    @switch (auction.Status)
                                     {
-                                        case SituacaoLeilao.Rascunho:
+                                        case AuctionStatus.Draft:
                                             <span>Rascunho</span>
                                             break;
-                                        case SituacaoLeilao.Pregao:
-                                            <span>Pregão iniciado em @leilao.Inicio.Value.ToString("dd/MM/yyyy hh:mm")</span>
+                                        case AuctionStatus.Trading:
+                                            <span>Pregão iniciado em @auction.DateOpen.Value.ToString("dd/MM/yyyy hh:mm")</span>
                                             break;
-                                        case SituacaoLeilao.Finalizado:
-                                            <span>Finalizado em @leilao.Termino.Value.ToString("dd/MM/yyyy hh:mm")</span>
+                                        case AuctionStatus.Close:
+                                            <span>Finalizado em @auction.DateClose.Value.ToString("dd/MM/yyyy hh:mm")</span>
                                             break;
                                         default:
-                                            <span>@leilao.Situacao</span>
+                                            <span>@auction.Status</span>
                                             break;
                                     }
                                 </td>
-                                <td>@leilao.Descricao</td>
+                                <td>@auction.Description</td>
                                 <td>
-                                    @if (leilao.Situacao == SituacaoLeilao.Rascunho)
+                                    @if (auction.Status == AuctionStatus.Draft)
                                     {
-                                        <a class="btn btn-light" asp-controller="Leilao" asp-action="Edit" asp-route-id="@leilao.Id" title="Edição">
+                                        <a class="btn btn-light" asp-controller="Leilao" asp-action="Edit" asp-route-id="@auction.Id" title="Edição">
                                             <i class="fa fa-pencil-alt" aria-hidden="true"></i>
                                         </a>
                                         <form asp-action="Inicia">
-                                            <input type="hidden" name="id" value="@leilao.Id" />
+                                            <input type="hidden" name="id" value="@auction.Id" />
                                             <button class="btn btn-light" title="Iniciar Pregão">
                                                 <i class="fas fa-play-circle"></i>
                                             </button>
                                         </form>
                                     }
-                                    @if (leilao.Situacao != SituacaoLeilao.Pregao)
+                                    @if (auction.Status != AuctionStatus.Trading)
                                     {
-                                        <a class="btn btn-light btnRemoveLeilao" data-id="@leilao.Id" data-titulo="@leilao.Titulo" title="Exclusão">
+                                        <a class="btn btn-light btnRemoveLeilao" data-id="@auction.Id" data-titulo="@auction.Title" title="Exclusão">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </a>
                                     }
-                                    @if (leilao.Situacao == SituacaoLeilao.Pregao)
+                                    @if (auction.Status == AuctionStatus.Trading)
                                     {
                                         <form asp-action="Finaliza">
-                                            <input type="hidden" name="id" value="@leilao.Id" />
+                                            <input type="hidden" name="id" value="@auction.Id" />
                                             <button class="btn btn-light" title="Finalizar Pregão">
                                                 <i class="fas fa-stop-circle"></i>
                                             </button>

@@ -1,7 +1,7 @@
 ﻿using EAuction.WebApp.Models;
 using System.Collections.Generic;
 
-namespace EAuction.WebApp.Dados
+namespace EAuction.WebApp.Data
 {
     public interface ICategoryDao
     {

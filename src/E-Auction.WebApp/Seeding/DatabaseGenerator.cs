@@ -1,4 +1,4 @@
-using EAuction.WebApp.Dados.EFCore;
+using EAuction.WebApp.Data.EFCore;
 using EAuction.WebApp.Models;
 using System;
 using System.Collections.Generic;

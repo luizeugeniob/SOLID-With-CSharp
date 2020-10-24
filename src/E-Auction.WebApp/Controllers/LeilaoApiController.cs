@@ -1,5 +1,4 @@
-﻿using EAuction.WebApp.Dados;
-using EAuction.WebApp.Models;
+﻿using EAuction.WebApp.Models;
 using EAuction.WebApp.Services;
 using Microsoft.AspNetCore.Mvc;
 

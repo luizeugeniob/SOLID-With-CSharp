@@ -1,5 +1,5 @@
-using EAuction.WebApp.Dados;
-using EAuction.WebApp.Dados.EFCore;
+using EAuction.WebApp.Data;
+using EAuction.WebApp.Data.EFCore;
 using EAuction.WebApp.Services;
 using EAuction.WebApp.Services.Handlers;
 using Microsoft.AspNetCore.Builder;
